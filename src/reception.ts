@@ -1,13 +1,21 @@
 import readline from 'readline';
 import chalk from 'chalk';
-import KitchenFactory from './factory/KitchenFactory';
 
 import { CommandRegex, Dishsize, DishType } from './constant/constants';
 
-// constants
+import KitchenManager from './manager/KitchenManager';
+import KitchenFactory from './factory/KitchenFactory';
+
+// Constants & Interface
 const multiplier: string = process.argv[2];
-const nbCooks: string = process.argv[3];
+const nbCooks: number = parseInt(process.argv[3]);
 const time: string = process.argv[4];
+
+interface Command {
+  type: string,
+  size: string,
+  number: number
+}
 
 // Display
 console.log(chalk.magenta('Multiplier for the cooking time of the dish: ' + multiplier));
@@ -49,7 +57,7 @@ const errorInvalidCommande = (result: RegExpExecArray, command: string) => {
     errorBadSize(groups.size.toUpperCase());
     errorBadType(capitalize(groups.type));
 
-     console.log(chalk.yellow(`Your order ${groups.size} ${groups.type} is being prepared ...`));
+     console.log(chalk.yellow(`Your order ${groups.type} is being prepared ...`));
      return
   } else {
     console.log(chalk.red("Unknown command ..."));
@@ -57,7 +65,21 @@ const errorInvalidCommande = (result: RegExpExecArray, command: string) => {
   }
 }
 
-// Methode => string.capitalize() is not working ...
+const distributeCommand = (command: Command): void => {
+
+    const kitchenManager = KitchenManager.getInstance();
+    const kitchenFactory = new KitchenFactory();
+    kitchenManager.createKitchen(kitchenFactory, nbCooks);
+
+    console.log(chalk.green('New command: ', command.type, command.size, command.number));
+
+    for (let i = 0; i < command.number; i++){
+      return
+    }
+
+}
+
+// Method => string.capitalize() is not working ...
 const capitalize = (string: string): string => {
   if (typeof string !== 'string') return '';
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -77,6 +99,15 @@ rl.on('line', (input: string) => {
   commands.forEach(command => {
     const result = formatCommand.exec(command);
     errorInvalidCommande(result, command)
+
+    const { groups } = result;
+
+    distributeCommand({
+      type: groups.type,
+      size: groups.size,
+      number: parseInt(groups.number)
+    });
+
   });
 
 });
