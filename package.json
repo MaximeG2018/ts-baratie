@@ -1,0 +1,28 @@
+{
+  "name": "ts-baratie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "reception.js",
+  "scripts": {
+    "start": "nodemon src/reception.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaximeG2018/ts-baratie.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaximeG2018/ts-baratie/issues"
+  },
+  "homepage": "https://github.com/MaximeG2018/ts-baratie#readme",
+  "dependencies": {
+    "@types/node": "^13.9.5",
+    "chalk": "^3.0.0",
+    "nodemon": "^2.0.2",
+    "readline": "^1.3.0",
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3"
+  }
+}
